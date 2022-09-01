@@ -127,6 +127,19 @@
 	transition: 0.5s;
 }
 
+#dictionary .container .btn-search button{
+	border: none;
+	outline: none;
+	font-family: 'Princess Sofia', cursive;
+	background-image: linear-gradient(to right, #b4e4fb, #1484c5);
+	padding: 2px 40px;
+	font-size: 25px;
+	color: #000000;
+	box-shadow: 2px 5px 15px #1484c5;
+	margin: 20px 80px;
+	transition: 0.5s;
+}
+
 #dictionary .container .btn button:hover{
 	background-image: none;
 	background-color: #ffffff;

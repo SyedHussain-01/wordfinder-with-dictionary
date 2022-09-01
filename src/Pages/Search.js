@@ -30,9 +30,14 @@ function Search() {
     getMeaning();
   }, [state]);
 
-  const nextPage = () => {
+  const next = () => {
     setMaxPage(maxpage+20)
     setMinPage(maxpage+1)
+  }
+
+  const previous = () => {
+    setMaxPage(maxpage-20)
+    setMinPage(minpage-20)
   }
 
   const [minpage, setMinPage] = useState(0)
@@ -53,8 +58,9 @@ function Search() {
               })}
             </ul>
           </div>
-          <div className="btn">
-            <button onClick={nextPage}>More Words</button>
+          <div className="btn-search">
+            <button onClick={previous} >{"<"}</button>
+            <button onClick={next} >{">"}</button>
           </div>
         </div>
       </section>
