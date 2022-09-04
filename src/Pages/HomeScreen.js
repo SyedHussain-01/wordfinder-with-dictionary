@@ -13,7 +13,7 @@ import {
 import { data } from "../Data/words-data";
 import { useNavigate } from "react-router-dom";
 
-const HomeScreen = (props) => {
+const HomeScreen = () => {
   const navigate = useNavigate();
   const [starts, setStartsWith] = useState("");
   const [ends, setEndsWith] = useState("");
@@ -21,14 +21,13 @@ const HomeScreen = (props) => {
   const [lengthOfWord, setLength] = useState("");
   const [filteredArr, setFilteredArr] = useState([]);
 
-  useEffect(()=>{
-    if(filteredArr.length>0){
-        navigate('/search', { state: filteredArr })
+  useEffect(() => {
+    if (filteredArr.length > 0) {
+      navigate("/search", { state: filteredArr });
     }
-  },[filteredArr.length])
+  }, [filteredArr.length]);
 
   const handleSubmit = () => {
-
     if (ends === "" && contains === "" && lengthOfWord === "") {
       const result = data.filter((word) => {
         if (startsWith(starts, word) === true) {
@@ -78,8 +77,91 @@ const HomeScreen = (props) => {
         }
       });
       setFilteredArr(result);
-    } else {
-      alert("Not Supported");
+    } else if (lengthOfWord === "") {
+      const result = data.filter((word) => {
+        if (
+          endsAndConsists(ends, contains, word) === true &&
+          startsWith(starts, word) === true
+        ) {
+          return word;
+        }
+      });
+      setFilteredArr(result);
+    } else if (ends === "" && contains === "") {
+      const result = data.filter((word) => {
+        if (
+          startsWith(starts, word) === true &&
+          length(lengthOfWord, word) === true
+        ) {
+          return word;
+        }
+      });
+      setFilteredArr(result);
+    } else if (starts === "" && contains === "") {
+      const result = data.filter((word) => {
+        if (
+          endsWith(ends, word) === true &&
+          length(lengthOfWord, word) === true
+        ) {
+          return word;
+        }
+      });
+      setFilteredArr(result);
+    } else if (starts === "" && ends === "") {
+      const result = data.filter((word) => {
+        if (
+          consists(contains, word) === true &&
+          length(lengthOfWord, word) === true
+        ) {
+          return word;
+        }
+      });
+      setFilteredArr(result);
+    } else if (contains === "") {
+      const result = data.filter((word) => {
+        if (
+          startsWith(starts, word) === true &&
+          endsWith(lengthOfWord, word) === true &&
+          length(lengthOfWord, word) === true
+        ) {
+          return word;
+        }
+      });
+      setFilteredArr(result);
+    }else if (ends === "") {
+      const result = data.filter((word) => {
+        if (
+          startsWith(starts, word) === true &&
+          consists(contains, word) === true &&
+          length(lengthOfWord, word) === true
+        ) {
+          return word;
+        }
+      });
+      setFilteredArr(result);
+    }else if (starts === "") {
+      const result = data.filter((word) => {
+        if (
+          endsWith(ends, word) === true &&
+          consists(contains, word) === true &&
+          length(lengthOfWord, word) === true
+        ) {
+          return word;
+        }
+      });
+      setFilteredArr(result);
+    }else {
+      const result = data.filter((word) => {
+        if (
+          endsWith(ends, word) === true &&
+          consists(contains, word) === true &&
+          length(lengthOfWord, word) === true &&
+          startsWith(starts, word) === true
+        ) {
+          return word;
+        }
+      });
+      setFilteredArr(result);
     }
   };
 
@@ -90,8 +172,8 @@ const HomeScreen = (props) => {
   };
 
   const emptyInputsHandler = () => {
-    alert("Empty Inputs")
-  }
+    alert("Empty Inputs");
+  };
 
   return (
     <div>
@@ -102,91 +184,67 @@ const HomeScreen = (props) => {
             <img src={logo} alt="Logo" width="100px;" />
           </div>
 
-            <div className="inner-div">
-              <div className="icon">
-                <i className="fa-solid fa-book" />
-              </div>
-              <div className="inputs">
-                <input
-                  type="text"
-                  placeholder="Starts With"
-                  onChange={(e) => setStartsWith(e.target.value)}
-                  value={starts}
-                />
-              </div>
+          <div className="inner-div">
+            <div className="icon">
+              <i className="fa-solid fa-book" />
             </div>
-            <div className="inner-div inner-div2">
-              <div className="icon">
-                <i className="fa-solid fa-swatchbook" />
-              </div>
-              <div className="inputs">
-                <input
-                  type="text"
-                  placeholder="Ends With"
-                  onChange={(e) => setEndsWith(e.target.value)}
-                  value={ends}
-                />
-              </div>
+            <div className="inputs">
+              <input
+                type="text"
+                placeholder="Starts With"
+                onChange={(e) => setStartsWith(e.target.value)}
+                value={starts}
+              />
             </div>
-            <div className="inner-div">
-              <div className="icon">
-                <i className="fa-solid fa-book-bookmark" />
-              </div>
-              <div className="inputs">
-                <input
-                  type="text"
-                  placeholder="Contains"
-                  onChange={(e) => setContains(e.target.value)}
-                  value={contains}
-                />
-              </div>
-            </div>
-            <div className="inner-div inner-div2">
-              <div className="icon">
-                <i className="fa-solid fa-book-open" />
-              </div>
-              <div className="inputs">
-                <input
-                  type="number"
-                  placeholder="Length"
-                  onChange={(e) => handleLength(e.target.value)}
-                  value={lengthOfWord}
-                />
-              </div>
-            </div>
-            <div className="btn">
-                {
-                    starts === "" && ends === "" && contains === "" && lengthOfWord === ""
-                    ?
-                    <button onClick={emptyInputsHandler}>Search</button>
-                    :
-                    <button onClick={handleSubmit}>Search</button>
-                }
-            </div>
-
-        </div>
-      </section>
-      <section id="modal">
-        <div className="modal-container">
-          <div className="card">
-            <h2>Apple</h2>
-            <div className="hr" />
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam,quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
-            </p>
           </div>
-          <div className="card">
-            <h2>Mango</h2>
-            <div className="hr" />
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam,quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
-            </p>
+          <div className="inner-div inner-div2">
+            <div className="icon">
+              <i className="fa-solid fa-swatchbook" />
+            </div>
+            <div className="inputs">
+              <input
+                type="text"
+                placeholder="Ends With"
+                onChange={(e) => setEndsWith(e.target.value)}
+                value={ends}
+              />
+            </div>
+          </div>
+          <div className="inner-div">
+            <div className="icon">
+              <i className="fa-solid fa-book-bookmark" />
+            </div>
+            <div className="inputs">
+              <input
+                type="text"
+                placeholder="Contains"
+                onChange={(e) => setContains(e.target.value)}
+                value={contains}
+              />
+            </div>
+          </div>
+          <div className="inner-div inner-div2">
+            <div className="icon">
+              <i className="fa-solid fa-book-open" />
+            </div>
+            <div className="inputs">
+              <input
+                type="number"
+                placeholder="Length"
+                onChange={(e) => handleLength(e.target.value)}
+                value={lengthOfWord}
+              />
+            </div>
+          </div>
+          <div className="btn">
+            {starts === "" &&
+            ends === "" &&
+            contains === "" &&
+            lengthOfWord === "" ? (
+              <button onClick={emptyInputsHandler}>Search</button>
+            ) : (
+              <button onClick={handleSubmit}>Search</button>
+            )}
           </div>
         </div>
       </section>
